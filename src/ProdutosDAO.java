@@ -3,11 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-/**
- *
- * @author Adm
- */
-
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
@@ -25,7 +20,29 @@ public class ProdutosDAO {
     public void cadastrarProduto (ProdutosDTO produto){
         
         
-        //conn = new conectaDAO().connectDB();
+        conn = new conectaDAO().connectDB();
+        
+        String sql = "INSERT INTO produtos (nome, valor, status) VALUES (?, ?, ?)";
+    
+    try {
+        
+        prep = conn.prepareStatement(sql);
+        prep.setString(1, produto.getNome());
+        prep.setDouble(2, produto.getValor());
+        prep.setString(3, produto.getStatus());
+        
+      
+        prep.executeUpdate();
+        
+        
+        prep.close();
+        conn.close();
+        
+        JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!");
+        
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Erro ao cadastrar produto: " + e.getMessage());
+    }
         
         
     }
