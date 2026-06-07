@@ -1,12 +1,13 @@
+
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
-/**
- *
- * @author Aline e Maikon
- */
 public class vendasWIEW extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(vendasWIEW.class.getName());
@@ -16,8 +17,28 @@ public class vendasWIEW extends javax.swing.JFrame {
      */
     public vendasWIEW() {
         initComponents();
+        listarProdutosVendidos();
     }
-
+       
+    private void listarProdutosVendidos(){
+    try {
+        ProdutosDAO produtosdao = new ProdutosDAO();
+        DefaultTableModel model = (DefaultTableModel) tblListaProdutosVendidos.getModel();
+        model.setNumRows(0);
+        
+        ArrayList<ProdutosDTO> listagem = produtosdao.listarProdutosVendidos();
+        
+        for(int i = 0; i < listagem.size(); i++){
+            model.addRow(new Object[]{
+                listagem.get(i).getNome(),
+                listagem.get(i).getStatus()
+            });
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Erro ao carregar vendas: " + e.getMessage());
+    }
+}
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
