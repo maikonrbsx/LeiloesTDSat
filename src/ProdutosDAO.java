@@ -42,9 +42,25 @@ public class ProdutosDAO {
         
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "Erro ao cadastrar produto: " + e.getMessage());
+        }
+        
     }
+    
+    public void venderProduto(int id) {
+        conn = new conectaDAO().connectDB();
+        String sql = "UPDATE produtos SET status = ? WHERE id = ?";
         
-        
+        try {
+            prep = conn.prepareStatement(sql);
+            prep.setString(1, "Vendido");
+            prep.setInt(2, id);
+            prep.executeUpdate();
+            
+            prep.close();
+            conn.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao vender produto: " + e.getMessage());
+        }
     }
     
     public ArrayList<ProdutosDTO> listarProdutos(){
@@ -74,9 +90,5 @@ public class ProdutosDAO {
     }
     return listagem;
     }
-    
-    
-    
         
 }
-
